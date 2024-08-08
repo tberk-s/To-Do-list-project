@@ -10,17 +10,50 @@ def write_todo(todo):
 def load_todo():
     if os.path.exists(todo_list):
         with open(todo_list, 'r') as file:
-            return file.read()
+            return file.readlines()
+    return []
 
 def add_task_to_list(task):
-    append = load_todo()
-    append.append(task + '\n')
-    write_todo(append)
+    tasks = load_todo()
+    tasks.append(task + '\n')
+    write_todo(tasks)
     print(f'The task "{task}" has been added to the list.')
 
 def show_list():
     if load_todo():
-        index = 0
+        index = 1
         for task in load_todo():
             print(f'{index}. task = {task.strip()}')
             index = index+1
+    else:
+        print('Todo list is empty')
+
+add_task_to_list('Buy vegetables')
+add_task_to_list('Do this')
+show_list()
+
+def is_valid_index(i, tasks):
+    return 0 <= i < len(tasks)
+
+def convert_to_int():
+    return int(i_str) if i_str.isdigit() else -1
+
+def delete_from_list():
+    tasks = load_todo()
+    if tasks:
+        i = 1
+        for task in tasks:
+            print(f'{i}. {task.strip()}')
+            i = i + 1
+        str_of_task_to_delete = input('Enter the index of the task you want to delete')
+        int_of_task_to_delete = int(str_of_task_to_delete)
+        if is_valid_index(int_of_task_to_delete, tasks):
+            deleted_task = tasks.pop(int_of_task_to_delete)
+            write_todo(tasks)
+            print(f'The task {deleted_task.strip()} has been deleted from the list')
+        else:
+            print('Invalid number, please try again')
+    else:
+        print('To-do list is empty')
+
+delete_from_list()
