@@ -19,7 +19,7 @@ def add_task_to_list():
         tasks.append(task + '\n')
         write_todo(tasks)
         print(f'The task "{task}" has been added to the list.')
-        if input('Do you want to ADD more items to the list? (y/N): ').strip().lower() != 'y':
+        if input('Do you want to ADD more items to the list? (y/N): ') != 'y':
             break
 
 def show_list():
@@ -27,7 +27,7 @@ def show_list():
     if tasks:
         index = 1
         for task in tasks:
-            print(f'{index}. {task.strip()}')
+            print(f'{index}. {task}')
             index += 1
     else:
         print('Todo list is empty.')
@@ -41,19 +41,35 @@ def delete_from_list():
         if tasks:
             i = 1
             for task in tasks:
-                print(f'{i}. {task.strip()}')
+                print(f'{i}. {task}')
                 i = i + 1
             str_of_task_to_delete = input('Enter the index of the task you want to delete : ')
             int_of_task_to_delete = int(str_of_task_to_delete) - 1
             if is_valid_index(int_of_task_to_delete, tasks):
                 deleted_task = tasks.pop(int_of_task_to_delete)
                 write_todo(tasks)
-                print(f'The task {deleted_task.strip()} has been deleted from the list')
+                print(f'The task {deleted_task} has been deleted from the list')
             else:
                 print('Invalid number, please try again')
         else:
             print('To-do list is empty')
         if input('Do you want to DELETE more items from the list? (y/N): ') != 'y':
+            break
+
+def complete_the_task():
+    while True:
+        tasks = load_todo()
+        i = 1
+        print("Current tasks:")
+        for task in tasks:
+            print(f'{i}. {task}')
+            i = i + 1
+        task_to_complete = int(input('Enter the index of the task you completed: ')) - 1
+        task = tasks[task_to_complete]
+        tasks[task_to_complete] = "COMPLETED TASK : " + task
+        write_todo(tasks)
+        print(f'Task marked as completed: {tasks[task_to_complete]}')
+        if input('Do you want to COMPLETE more tasks? (y/N): ') != 'y':
             break
 
 def main():
@@ -77,11 +93,12 @@ def main():
                 show_list()
             case 3:
                 delete_from_list()
+            case 4:
+                complete_the_task()
             case _:
                 print('Please enter a valid operation.')
 
         if input('Do you want to continue? (y/N): ') != 'y':
             break
 
-if __name__ == "__main__":
-    main()
+main()
