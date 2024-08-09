@@ -80,7 +80,7 @@ def main():
             print('\tTo enter a task into the list, enter 1\n')
             print('\tTo show the list, enter 2\n')
             print('\tTo delete a task from the list, enter 3\n')
-
+            print('\tTo mark the task as complete, enter 4\n')
             user_option = int(input('Select your operation: '))
         except ValueError:
             print('Invalid input, please enter a number.')
